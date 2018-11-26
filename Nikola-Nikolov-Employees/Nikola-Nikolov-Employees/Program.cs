@@ -60,7 +60,7 @@ namespace Nikola_Nikolov_Employees
         {
             Console.WriteLine("Enter path to file:");
             string Input = Console.ReadLine();
-            Console.WriteLine(Input);
+
             BestTeam(ReadFile(Input));
         }
     }
