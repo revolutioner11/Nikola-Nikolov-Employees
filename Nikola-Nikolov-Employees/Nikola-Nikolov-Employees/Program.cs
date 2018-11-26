@@ -8,7 +8,7 @@ namespace Nikola_Nikolov_Employees
 {
     class Program
     {
-        static void BestTeam(List<ProjectData>)
+        static void BestTeam(List<ProjectData> Data)
         {
 
         }
