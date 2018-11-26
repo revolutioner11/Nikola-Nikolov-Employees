@@ -14,9 +14,8 @@ namespace Nikola_Nikolov_Employees
             ProjectID = 0;
             DateFrom = default(DateTime);
             DateTo = default(DateTime);
-            TimeElapsed = default(TimeSpan);
+            TimeElapsed = TimeSpan.Zero;
         }
-
         public ProjectData(int EmployeeID, int ProjectID, DateTime DateFrom, DateTime DateTo)
         {
             this.EmployeeID = EmployeeID;
@@ -31,10 +30,52 @@ namespace Nikola_Nikolov_Employees
             Console.WriteLine("{0}, {1}, from {2} to {3}, time: {4}",
                 EmployeeID, ProjectID, DateFrom, DateTo, TimeElapsed);
         }
-
         private void CalculateTimeElapsed()
         {
             timeElapsed = dateTo - dateFrom;
+        }
+        public bool IsOverlapping(ProjectData OtherData)
+        {
+            if (this.ProjectID != OtherData.ProjectID)
+            {
+                return false;
+            }
+
+            if (this.DateFrom <= OtherData.DateTo 
+                && this.DateTo >= OtherData.DateFrom)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        public TimeSpan OverlappingTime(ProjectData OtherData)
+        {
+            DateTime Beginning;
+            DateTime End;
+
+            if (this.DateFrom > OtherData.DateFrom)
+            {
+                Beginning = this.DateFrom;
+            }
+            else
+            {
+                Beginning = OtherData.DateFrom;
+            }
+
+            if (this.DateTo < OtherData.DateTo)
+            {
+                End = this.DateTo;
+            }
+            else
+            {
+                End = OtherData.DateTo;
+            }
+
+            return End - Beginning;
         }
 
         private int employeeID;
