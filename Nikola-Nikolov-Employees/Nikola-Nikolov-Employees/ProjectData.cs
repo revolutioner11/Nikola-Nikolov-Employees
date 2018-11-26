@@ -23,11 +23,18 @@ namespace Nikola_Nikolov_Employees
             this.ProjectID = ProjectID;
             this.DateFrom = DateFrom;
             this.DateTo = DateTo;
+            CalculateTimeElapsed();
         }
+
         public void Print()
         {
             Console.WriteLine("{0}, {1}, from {2} to {3}, time: {4}",
                 EmployeeID, ProjectID, DateFrom, DateTo, TimeElapsed);
+        }
+
+        private void CalculateTimeElapsed()
+        {
+            timeElapsed = dateTo - dateFrom;
         }
 
         private int employeeID;
@@ -70,6 +77,7 @@ namespace Nikola_Nikolov_Employees
             set
             {
                 dateFrom = value;
+                CalculateTimeElapsed();
             }
         }
         public DateTime DateTo
@@ -82,6 +90,7 @@ namespace Nikola_Nikolov_Employees
             set
             {
                 dateTo = value;
+                CalculateTimeElapsed();
             }
         }
         public TimeSpan TimeElapsed

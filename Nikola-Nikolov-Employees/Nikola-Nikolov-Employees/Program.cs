@@ -2,32 +2,31 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Nikola_Nikolov_Employees
 {
     class Program
     {
-        static void BestTeam()
+        static void BestTeam(List<ProjectData>)
         {
 
         }
 
-        static void ReadFile(string Input)
+        static List<ProjectData> ReadFile(string Input)
         {
             string[] TextData = System.IO.File.ReadAllLines(Input);
-            SortedList<int, ProjectData> Data = new SortedList<int, ProjectData>();
-            ProjectData Entry = new ProjectData();
+            List<ProjectData> Data = new List<ProjectData>();
 
             foreach (string Line in TextData)
             {
+                ProjectData Entry = new ProjectData();
                 string[] Words = Regex.Split(Line, ", ");
                 Entry.EmployeeID = System.Convert.ToInt32(Words[0]);
                 Entry.ProjectID = System.Convert.ToInt32(Words[1]);
                 if (Words[2]!="NULL")
                 {
-                    Entry.DateFrom = DateTime.ParseExact(Words[2], "d", null);
+                    Entry.DateFrom = DateTime.Parse(Words[2]);
                 }
                 else
                 {
@@ -36,18 +35,24 @@ namespace Nikola_Nikolov_Employees
 
                 if (Words[3] != "NULL")
                 {
-                    Entry.DateTo = DateTime.ParseExact(Words[3], "d", null);
+                    Entry.DateTo = DateTime.Parse(Words[3]);
                 }
                 else
                 {
                     Entry.DateTo = DateTime.Now;
                 }
 
-                Entry.Print();
-                Console.WriteLine();
+                Data.Add(Entry);
             }
 
-          
+            foreach (ProjectData item in Data)
+            {
+                item.Print();
+            }
+
+            Data.Sort((x, y) => x.ProjectID.CompareTo(y.ProjectID));
+
+            return Data;
         }
 
         static void Main(string[] args)
@@ -55,7 +60,7 @@ namespace Nikola_Nikolov_Employees
             Console.WriteLine("Enter path to file:");
             string Input = Console.ReadLine();
             Console.WriteLine(Input);
-            ReadFile(Input);
+            BestTeam(ReadFile(Input));
         }
     }
 }
