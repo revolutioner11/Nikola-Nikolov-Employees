@@ -24,7 +24,11 @@ namespace Nikola_Nikolov_Employees
             this.DateFrom = DateFrom;
             this.DateTo = DateTo;
         }
-
+        public void Print()
+        {
+            Console.WriteLine("{0}, {1}, from {2} to {3}, time: {4}",
+                EmployeeID, ProjectID, DateFrom, DateTo, TimeElapsed);
+        }
 
         private int employeeID;
         private int projectID;
