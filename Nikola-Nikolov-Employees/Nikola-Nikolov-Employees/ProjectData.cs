@@ -8,6 +8,7 @@ namespace Nikola_Nikolov_Employees
 {
     class ProjectData
     {
+        // Constructors
         public ProjectData()
         {
             EmployeeID = 0;
@@ -25,22 +26,29 @@ namespace Nikola_Nikolov_Employees
             CalculateTimeElapsed();
         }
 
+
         public void Print()
         {
             Console.WriteLine("{0}, {1}, from {2} to {3}, time: {4}",
-                EmployeeID, ProjectID, DateFrom, DateTo, TimeElapsed);
+                EmployeeID, ProjectID, DateFrom.Date, DateTo.Date, TimeElapsed.Days);
         }
         private void CalculateTimeElapsed()
         {
             timeElapsed = dateTo - dateFrom;
         }
+
+        // Checks if the two people have been working on the same project at the same time.
         public bool IsOverlapping(ProjectData OtherData)
         {
-            if (this.ProjectID != OtherData.ProjectID)
+            // Checks if it is the same project.
+            // A person cannot work with himself, the method does check if the employees are different.
+            if (this.ProjectID != OtherData.ProjectID
+                || this.EmployeeID == OtherData.EmployeeID)
             {
                 return false;
             }
 
+            // The DateTime overlapping check.
             if (this.DateFrom <= OtherData.DateTo 
                 && this.DateTo >= OtherData.DateFrom)
             {
@@ -52,6 +60,9 @@ namespace Nikola_Nikolov_Employees
             }
 
         }
+
+        // Calculates the overlapping tiem between the two periods.
+        // Works only if the IsOverlapping check is done first.
         public TimeSpan OverlappingTime(ProjectData OtherData)
         {
             DateTime Beginning;

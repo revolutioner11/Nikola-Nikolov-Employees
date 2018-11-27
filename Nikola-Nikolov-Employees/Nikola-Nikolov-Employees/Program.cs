@@ -9,9 +9,31 @@ namespace Nikola_Nikolov_Employees
 {
     class Program
     {
-        static void BestTeam(List<ProjectData> Data)
+        static void FindBestTeam(List<ProjectData> Data)
         {
+          
+            ProjectData Emp1 = new ProjectData();
+            ProjectData Emp2 = new ProjectData();
+            TimeSpan BestTime = new TimeSpan();
+            BestTime = TimeSpan.Zero;
 
+            for (int i = 0; i < Data.Count; ++i)
+            {
+                for (int j = i + 1; j < Data.Count; j++)
+                {
+                    if (Data[i].IsOverlapping(Data[j])
+                        && Data[i].OverlappingTime(Data[j]) > BestTime)
+                    {
+                        Emp1 = Data[i];
+                        Emp2 = Data[j];
+                        BestTime = Data[i].OverlappingTime(Data[j]);
+                    }
+                }
+            }
+
+            Emp1.Print();
+            Emp2.Print();
+            Console.WriteLine("Overlapping time: {0}", BestTime);
         }
 
         static List<ProjectData> ReadFile(string Input)
@@ -23,8 +45,10 @@ namespace Nikola_Nikolov_Employees
             {
                 ProjectData Entry = new ProjectData();
                 string[] Words = Regex.Split(Line, ", ");
+
                 Entry.EmployeeID = System.Convert.ToInt32(Words[0]);
                 Entry.ProjectID = System.Convert.ToInt32(Words[1]);
+
                 if (Words[2]!="NULL")
                 {
                     Entry.DateFrom = DateTime.Parse(Words[2]);
@@ -46,13 +70,6 @@ namespace Nikola_Nikolov_Employees
                 Data.Add(Entry);
             }
 
-            foreach (ProjectData item in Data)
-            {
-                item.Print();
-            }
-
-            Data.Sort((x, y) => x.ProjectID.CompareTo(y.ProjectID));
-
             return Data;
         }
 
@@ -61,7 +78,7 @@ namespace Nikola_Nikolov_Employees
             Console.WriteLine("Enter path to file:");
             string Input = Console.ReadLine();
 
-            BestTeam(ReadFile(Input));
+            FindBestTeam(ReadFile(Input));
         }
     }
 }
